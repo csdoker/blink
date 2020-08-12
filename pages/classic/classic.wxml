@@ -1,2 +1,3 @@
 <!--pages/classic/classic.wxml-->
-<like />
+<like bind:like="onlike" like="{{classic.like_status}}" count="{{classic.fav_nums}}" />
+<movie img="{{classic.image}}" content="{{classic.content}}"></movie>

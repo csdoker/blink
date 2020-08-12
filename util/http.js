@@ -16,7 +16,7 @@ export class HTTP {
         data,
         header: {
           'content-type': 'application/json',
-          'appkey': CONFIG.APPKEY
+          'appkey': CONFIG.API_KEY
         },
         success: (res) => {
           let code = res.statusCode.toString()

@@ -2,6 +2,7 @@
 .like-wrapper {
   display: inline-flex;
   padding: 10rpx;
+  width: 90rpx;
 }
 
 .like-wrapper .like-img {
