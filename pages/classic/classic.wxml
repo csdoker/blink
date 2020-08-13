@@ -1,3 +1,6 @@
 <!--pages/classic/classic.wxml-->
-<like bind:like="onlike" like="{{classic.like_status}}" count="{{classic.fav_nums}}" />
+<view class="header">
+  <epsoide class="epsoide" index="{{classic.index}}" />
+  <like class="like" bind:like="onlike" like="{{classic.like_status}}" count="{{classic.fav_nums}}" />
+</view>
 <movie img="{{classic.image}}" content="{{classic.content}}"></movie>
