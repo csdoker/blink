@@ -1,6 +1,9 @@
 <!--pages/classic/classic.wxml-->
-<view class="header">
-  <epsoide class="epsoide" index="{{classic.index}}" />
-  <like class="like" bind:like="onlike" like="{{classic.like_status}}" count="{{classic.fav_nums}}" />
+<view class="container">
+  <view class="header">
+    <epsoide class="epsoide" index="{{classic.index}}" />
+    <like class="like" bind:like="onlike" like="{{classic.like_status}}" count="{{classic.fav_nums}}" />
+  </view>
+  <movie img="{{classic.image}}" content="{{classic.content}}"></movie>
+  <navi bind:next="onNext" bind:prev="onPrev" class="navi" title="{{classic.title}}" first="{{first}}" lastest="{{lastest}}" />
 </view>
-<movie img="{{classic.image}}" content="{{classic.content}}"></movie>

@@ -11,7 +11,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    classic: null
+    classic: null,
+    lastest: true,
+    first: false
   },
 
   /**
@@ -29,6 +31,25 @@ Page({
     const { status } = event.detail
     const { id, type } = this.data.classic
     likeModel.like(status, id, type)
+  },
+
+  onNext() {
+    this._updateClassic('next')
+  },
+
+  onPrev() {
+    this._updateClassic('prev')
+  },
+
+  _updateClassic(type) {
+    const index = this.data.classic.index
+    classicModel.getClassic(index, type).then(res => {
+      this.setData({
+        classic: res.data,
+        lastest: classicModel.isLastest(res.data.index),
+        first: classicModel.isFirst(res.data.index)
+      })
+    })
   },
 
   /**
