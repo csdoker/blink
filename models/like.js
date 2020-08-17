@@ -16,4 +16,15 @@ export class LikeModel extends HTTP {
       })
     })
   }
+
+  getLike(artID, category) {
+    return new Promise((resolve, reject) => {
+      this.request({
+        url: `/classic/${category}/${artID}/favor`,
+        method: 'GET'
+      }).then(res => {
+        resolve(res.data)
+      })
+    })
+  }
 }

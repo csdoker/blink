@@ -8,20 +8,33 @@ export class ClassicModel extends HTTP {
         method: 'GET'
       }).then(res => {
         this._setLatestIndex(res.data.index)
-        resolve(res)
+        wx.setStorageSync(this._getKey(res.data.index), res.data)
+        resolve(res.data)
       })
     })
   }
 
   getClassic(index, type) {
+    const _index = type === 'next' ? index + 1 : index - 1
+    const key = this._getKey(_index)
+    const classic = wx.getStorageSync(key)
     return new Promise((resolve, reject) => {
-      this.request({
-        url: `/classic/${index}/${type}`,
-        method: 'GET'
-      }).then(res => {
-        resolve(res)
-      })
+      if (!classic) {
+        this.request({
+          url: `/classic/${index}/${type}`,
+          method: 'GET'
+        }).then(res => {
+          wx.setStorageSync(this._getKey(res.data.index), res.data)
+          resolve(res.data)
+        })
+      } else {
+        resolve(classic)
+      }
     })
+  }
+
+  _getKey(index) {
+    return `classic-${index}`
   }
 
   _setLatestIndex(index) {
