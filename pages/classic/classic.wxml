@@ -1,9 +1,11 @@
 <!--pages/classic/classic.wxml-->
 <view class="container">
   <view class="header">
-    <epsoide class="epsoide" index="{{classic.index}}" />
+    <episode class="episode" index="{{classic.index}}" />
     <like class="like" bind:like="onlike" like="{{likeStatus}}" count="{{likeCount}}" />
   </view>
-  <movie wx:if="{{false}}" img="{{classic.image}}" content="{{classic.content}}"></movie>
+  <movie hidden="{{classic.type !== 100}}" img="{{classic.image}}" content="{{classic.content}}"></movie>
+  <music wx:if="{{classic.type === 200}}" img="{{classic.image}}" content="{{classic.content}}" src="{{classic.url}}" title="{{classic.title}}"></music>
+  <essay hidden="{{classic.type !== 300}}" img="{{classic.image}}" content="{{classic.content}}"></essay>
   <navi bind:next="onNext" bind:prev="onPrev" class="navi" title="{{classic.title}}" first="{{first}}" lastest="{{lastest}}" />
 </view>

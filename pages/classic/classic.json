@@ -2,7 +2,9 @@
   "usingComponents": {
     "like": "/components/like/index",
     "movie": "/components/classic/movie/index",
-    "epsoide": "/components/epsoide/index",
+    "music": "/components/classic/music/index",
+    "essay": "/components/classic/essay/index",
+    "episode": "/components/episode/index",
     "navi": "/components/navi/index"
   }
 }
