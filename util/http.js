@@ -6,9 +6,24 @@ const TIPS = {
   3000: '期刊不存在'
 }
 
+const promisic = (func) => {
+  return (params = {}) => {
+    new Promise((resolve, reject) => {
+      const args = Object.assign(params, {
+        success: (res) => {
+          resolve(res)
+        },
+        fail: (error) => {
+          reject(error)
+        }
+      })
+      func(args)
+    })
+  }
+}
+
 export class HTTP {
-  request(params) {
-    const { url, method = 'GET', data } = params
+  request({ url, method = 'GET', data = {} }) {
     return new Promise((resolve, reject) => {
       wx.request({
         url: CONFIG.API_BASE_URL + url,
@@ -19,17 +34,17 @@ export class HTTP {
           'appkey': CONFIG.API_KEY
         },
         success: (res) => {
-          let code = res.statusCode.toString()
+          const code = res.statusCode.toString()
           if (code.startsWith('2')) {
             resolve(res)
           } else {
             this.showError(res.data.error_code)
-            reject(res)
+            reject()
           }
         },
         fail: (err) => {
           this.showError(1)
-          reject(err)
+          reject()
         }
       })
     })
@@ -38,8 +53,9 @@ export class HTTP {
     if (!errorCode) {
       errorCode = 1
     }
+    const tip = TIPS[errorCode]
     wx.showToast({
-      title: TIPS[errorCode],
+      title: tip ? tip : TIPS[1],
       duration: 2000
     })
   }
