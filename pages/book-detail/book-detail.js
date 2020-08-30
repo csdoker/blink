@@ -35,7 +35,7 @@ Page({
     })
     comments.then(res => {
       this.setData({
-        comments: res.data
+        comments: res.data.comments
       })
     })
   },
