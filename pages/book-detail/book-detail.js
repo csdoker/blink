@@ -21,25 +21,19 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading()
     const { id } = options
     const detail = bookModel.getDetail(id)
     const likeStatus = bookModel.getLikeStatus(id)
     const comments = bookModel.getComments(id)
-    detail.then(res => {
+    Promise.all([detail, comments, likeStatus]).then(res => {
       this.setData({
-        book: res.data
+        book: res[0].data,
+        comments: res[1].data.comments,
+        likeStatus: res[2].data.like_status,
+        likeCount: res[2].data.fav_nums
       })
-    })
-    likeStatus.then(res => {
-      this.setData({
-        likeStatus: res.data.like_status,
-        likeCount: res.data.fav_nums
-      })
-    })
-    comments.then(res => {
-      this.setData({
-        comments: res.data.comments
-      })
+      wx.hideLoading()
     })
   },
 
