@@ -1,6 +1,8 @@
 // pages/book-detail/book-detail.js
 import { BookModel } from '../../models/book'
+import { LikeModel } from '../../models/like'
 const bookModel = new BookModel()
+const likeModel = new LikeModel()
 
 Page({
 
@@ -11,7 +13,8 @@ Page({
     book: null,
     likeStatus: false,
     comments: [],
-    likeCount: 0
+    likeCount: 0,
+    posting: false
   },
 
   /**
@@ -40,52 +43,48 @@ Page({
     })
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  onLike(event) {
+    const likeStatus = event.detail.status
+    likeModel.like(likeStatus, this.data.book.id, 400)
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
+  onFakePost() {
+    this.setData({
+      posting: true
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
+  onCancel() {
+    this.setData({
+      posting: false
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  onPost(event) {
+    const comment = event.detail.text || event.detail.value
+    if (!comment) {
+      return
+    }
+    if (comment.length > 12) {
+      wx.showToast({
+        title: '短评最多12个字',
+        icon: 'none'
+      })
+      return
+    }
+    bookModel.postComment(this.data.book.id, comment).then(res => {
+      wx.showToast({
+        title: '+1',
+        icon: 'none'
+      })
+      this.data.comments.unshift({
+        content: comment,
+        nums: 1
+      })
+      this.setData({
+        comments: this.data.comments,
+        posting: false
+      })
+    })
   }
 })
