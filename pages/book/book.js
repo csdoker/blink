@@ -34,5 +34,9 @@ Page({
     this.setData({
       searching: false
     })
+  },
+
+  onReachBottom() {
+    
   }
 })

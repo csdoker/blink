@@ -3,12 +3,12 @@
   <view class="header">
     <view class="search-container">
       <image class="icon" src="./images/search.png"></image>
-      <input bindconfirm="onConfirm" placeholder-class="in-bar" placeholder="书籍名" class="bar" auto-focus="true"></input>
-      <image class="cancel-img" src="./images/cancel.png"></image>
+      <input value="{{keyword}}" bindconfirm="onConfirm" placeholder-class="in-bar" placeholder="书籍名" class="bar" auto-focus="true"></input>
+      <image class="cancel-img" src="./images/cancel.png" bindtap="onDelete"></image>
     </view>
     <view class="cancel" bindtap="onCancel">取消</view>
   </view>
-  <view>
+  <view wx:if="{{!searching}}">
     <view class="history">
       <view class="title">
         <view class="chunk"></view>
@@ -16,7 +16,7 @@
       </view>
       <view class="tags">
         <block wx:for="{{historyKeywords}}">
-          <tag text="{{item}}" />
+          <tag bind:tapping="onConfirm" text="{{item}}" />
         </block>
       </view>
     </view>
@@ -27,9 +27,14 @@
       </view>
       <view class="tags">
         <block wx:for="{{hotKeywords}}">
-          <tag text="{{item}}" />
+          <tag bind:tapping="onConfirm" text="{{item}}" />
         </block>
       </view>
     </view>
+  </view>
+  <view wx:if="{{searching}}" class="books-container">
+    <block wx:for="{{books}}" wx:key="{{item.id}}">
+      <book book="{{item}}" class="book" />
+    </block>
   </view>
 </view>
