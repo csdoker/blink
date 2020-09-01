@@ -132,7 +132,7 @@
   width: 630rpx;
 }
 
-.tags v-tag {
+.tags tag {
   margin-right: 20rpx;
   margin-bottom: 20rpx;
 }

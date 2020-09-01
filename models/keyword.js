@@ -1,4 +1,6 @@
-export class KeywordModel {
+import { HTTP } from "../util/http"
+
+export class KeywordModel extends HTTP {
   key = 'keywords'
   maxLength = 10
 
@@ -7,7 +9,9 @@ export class KeywordModel {
   }
 
   getHot() {
-    
+    return this.request({
+      url: '/book/hot_keyword'
+    })
   }
 
   addToHistory(keyword) {

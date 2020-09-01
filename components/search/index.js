@@ -14,13 +14,18 @@ Component({
    * 组件的初始数据
    */
   data: {
-    historyKeywords: []
+    historyKeywords: [],
+    hotKeywords: []
   },
 
   attached() {
-    const historyKeywords = keywordModel.getHistory()
     this.setData({
-      historyKeywords
+      historyKeywords: keywordModel.getHistory()
+    })
+    keywordModel.getHot().then(res => {
+      this.setData({
+        hotKeywords: res.data.hot
+      })
     })
   },
 
@@ -32,7 +37,7 @@ Component({
       this.triggerEvent('cancel')
     },
 
-    onConfirm() {
+    onConfirm(event) {
       const keyword = event.detail.value
       keywordModel.addToHistory(keyword)
     }
