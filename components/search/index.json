@@ -2,6 +2,7 @@
   "component": true,
   "usingComponents": {
     "tag": "/components/tag/index",
-    "book": "/components/book/index"
+    "book": "/components/book/index",
+    "loading": "/components/loading/index"
   }
 }

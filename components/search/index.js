@@ -2,15 +2,22 @@
 import { KeywordModel } from '../../models/keyword'
 import { BookModel } from '../../models/book'
 
+import { paginationBehavior } from '../behaviors/pagination'
+
 const keywordModel = new KeywordModel()
 const bookModel = new BookModel()
 
 Component({
+  behaviors: [paginationBehavior],
+
   /**
    * 组件的属性列表
    */
   properties: {
-
+    more: {
+      type: Number,
+      observer: 'loadMore'
+    }
   },
 
   /**
@@ -19,9 +26,10 @@ Component({
   data: {
     historyKeywords: [],
     hotKeywords: [],
-    books: [],
     searching: false,
-    keyword: ''
+    keyword: '',
+    loading: false,
+    pageLoading: false
   },
 
   attached() {
@@ -39,27 +47,88 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    loadMore() {
+      if (!this.data.keyword) {
+        return
+      }
+      if (this._isLocked()) {
+        return
+      }
+      if (this.hasMore()) {
+        this._locked()
+        bookModel.search(this.getCurrentStart(), this.data.keyword).then(res => {
+          this.setMoreData(res.data.books)
+          this._unLocked()
+        }, () => {
+          this._unLocked()
+        })
+      }
+    },
+
+    _isLocked() {
+      return this.data.loading
+    },
+
+    _locked() {
+      this.setData({
+        loading: true
+      })
+    },
+    
+    _unLocked() {
+      this.setData({
+        loading: false
+      })
+    },
+
     onCancel() {
+      this.initialize()
       this.triggerEvent('cancel')
     },
 
     onDelete() {
-      this.setData({
-        searching: false
-      })
+      this.initialize()
+      this._closeResult()
     },
 
     onConfirm(event) {
+      this._showResult()
+      this._showPageLoading()
+      const keyword = event.detail.value || event.detail.text
+      this.setData({
+        keyword
+      })
+      bookModel.search(0, keyword).then(res => {
+        const { books, total } = res.data
+        this.setMoreData(books)
+        this.setTotal(total)
+        keywordModel.addToHistory(keyword)
+        this._hidePageLoading()
+      })
+    },
+
+    _showPageLoading() {
+      this.setData({
+        pageLoading: true
+      })
+    },
+
+    _hidePageLoading() {
+      this.setData({
+        pageLoading: false
+      })
+    },
+
+    _showResult() {
       this.setData({
         searching: true
       })
-      const keyword = event.detail.value || event.detail.text
-      bookModel.search(0, keyword).then(res => {
-        this.setData({
-          books: res.data.books,
-          keyword
-        })
-        keywordModel.addToHistory(keyword)
+    },
+
+    _closeResult() {
+      this.setData({
+        searching: false,
+        keyword: ''
       })
     }
   }
