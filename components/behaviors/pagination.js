@@ -2,7 +2,8 @@ const paginationBehavior = Behavior({
   data: {
     datas: [],
     total: null,
-    noneResult: false
+    noneResult: false,
+    loading: false
   },
   methods: {
     setMoreData(moreDatas) {
@@ -23,11 +24,25 @@ const paginationBehavior = Behavior({
     hasMore() {
       return !(this.data.datas.length >= this.data.total)
     },
+    isLocked() {
+      return this.data.loading
+    },
+    locked() {
+      this.setData({
+        loading: true
+      })
+    },
+    unLocked() {
+      this.setData({
+        loading: false
+      })
+    },
     initialize() {
       this.setData({
         datas: [],
         total: null,
-        noneResult: false
+        noneResult: false,
+        loading: false
       })
     }
   }
