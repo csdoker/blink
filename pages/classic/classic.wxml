@@ -2,7 +2,12 @@
 <view class="container">
   <view class="header">
     <episode class="episode" index="{{classic.index}}" />
-    <like class="like" bind:like="onlike" like="{{likeStatus}}" count="{{likeCount}}" />
+    <view class="like-container">
+      <like class="like" bind:like="onlike" like="{{likeStatus}}" count="{{likeCount}}" />
+      <image-button class="share-btn" open-type="share">
+        <image class="share" slot="img" src="/images/icon/share.png"></image>
+      </image-button>
+    </view>
   </view>
   <movie hidden="{{classic.type !== 100}}" img="{{classic.image}}" content="{{classic.content}}"></movie>
   <music wx:if="{{classic.type === 200}}" img="{{classic.image}}" content="{{classic.content}}" src="{{classic.url}}" title="{{classic.title}}"></music>

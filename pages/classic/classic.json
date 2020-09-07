@@ -5,6 +5,7 @@
     "music": "/components/classic/music/index",
     "essay": "/components/classic/essay/index",
     "episode": "/components/episode/index",
-    "navi": "/components/navi/index"
+    "navi": "/components/navi/index",
+    "image-button": "/components/image-button/index"
   }
 }
