@@ -39,6 +39,12 @@ export class ClassicModel extends HTTP {
     })
   }
 
+  getById(cid, type, success) {
+    return this.request({
+      url: `/classic/${type}/${cid}`
+    })
+  }
+
   _getKey(index) {
     return `classic-${index}`
   }
