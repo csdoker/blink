@@ -33,6 +33,12 @@ export class ClassicModel extends HTTP {
     })
   }
 
+  getMyFavor() {
+    return this.request({
+      url: '/classic/favor'
+    })
+  }
+
   _getKey(index) {
     return `classic-${index}`
   }
