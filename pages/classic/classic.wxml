@@ -4,9 +4,12 @@
     <episode class="episode" index="{{classic.index}}" />
     <view class="like-container">
       <like class="like" bind:like="onlike" like="{{likeStatus}}" count="{{likeCount}}" />
-      <image-button class="share-btn" open-type="share">
+      <!-- <image-button class="share-btn" open-type="share">
         <image class="share" slot="img" src="/images/icon/share.png"></image>
-      </image-button>
+      </image-button> -->
+      <l-button special="{{true}}" open-type="share" l-class="share-btn">
+        <image class="share" src="/images/icon/share.png"></image>
+      </l-button>
     </view>
   </view>
   <movie hidden="{{classic.type !== 100}}" img="{{classic.image}}" content="{{classic.content}}"></movie>
